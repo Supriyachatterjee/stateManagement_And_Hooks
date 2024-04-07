@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Form</title>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+  const App = () => {
+    const [hobbies, setHobbies] = React.useState([""]);
+
+    const handleInputChange = (index, value) => {
+      const newHobbies = [...hobbies];
+      newHobbies[index] = value;
+      setHobbies(newHobbies);
+    };
+
+    const addHobby = () => {
+      setHobbies([...hobbies, ""]);
+    };
+
+    const removeHobby = (index) => {
+      if (hobbies.length > 1) {
+        const newHobbies = [...hobbies];
+        newHobbies.splice(index, 1);
+        setHobbies(newHobbies);
+      }
+    };
+
+    const handleSubmit = () => {
+      console.log(hobbies);
+    };
+
+    return (
+      <div>
+        {hobbies.map((hobby, index) => (
+          <div key={index}>
+            <input
+              type="text"
+              value={hobby}
+              onChange={(e) => handleInputChange(index, e.target.value)}
+              placeholder="Enter hobby"
+            />
+            {index !== 0 && (
+              <button type="button" onClick={() => removeHobby(index)}>
+                Remove
+              </button>
+            )}
+          </div>
+        ))}
+        <button type="button" onClick={addHobby}>
+          Add Hobby
+        </button>
+        <button type="button" onClick={handleSubmit}>
+          Submit
+        </button>
+      </div>
+    );
+  };
+
+  ReactDOM.render(<App />, document.getElementById("root"));
+</script>
+</html>
